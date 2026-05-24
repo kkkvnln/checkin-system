@@ -342,7 +342,7 @@
                 </div>
 
                 <!-- 七天簽到卡片 -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8" id="checkinCards">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8" id="returningCheckinCards">
                     <!-- 簽到卡片將通過JavaScript動態生成 -->
                 </div>
 
@@ -418,68 +418,132 @@
         </div>
     </div>
 
+    <!-- 回歸簽到成功彈窗 -->
+    <div id="returningCheckinModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 relative z-10 transform transition-all animate-float">
+            <div class="text-center">
+                <div class="w-20 h-20 rounded-full bg-success flex items-center justify-center mx-auto mb-4">
+                    <i class="fa fa-check text-white text-4xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-2">簽到成功！</h2>
+                <p class="text-gray-600 mb-2">第<span id="returningDayNumber" class="font-bold text-purple-600">1</span>天簽到</p>
+                <p class="text-gray-600 mb-6" id="returningRewardDescription">恭喜你獲得今日獎勵</p>
+                
+                <div class="bg-gradient-to-r from-purple-600 to-pink-500 rounded-lg p-6 mb-6">
+                    <div class="flex items-center justify-center">
+                        <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center">
+                            <i id="returningRewardIcon" class="fa fa-gift text-primary text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-white text-lg" id="returningRewardTitle">神秘獎勵</h3>
+                        <p class="text-white/90 text-sm">獎勵已發放至您的賬戶</p>
+                    </div>
+                </div>
+                
+                <!-- 獎勵物品列表 -->
+                <div id="returningRewardItems" class="mb-6 space-y-3">
+                    <!-- 獎勵物品將動態生成 -->
+                </div>
+                
+                <button id="closeReturningModal" class="w-full py-3 rounded-full bg-primary text-white font-bold hover:bg-primary/90 transition-colors">
+                    領取獎勵
+                </button>
+            </div>
+        </div>
+    </div>
+
 
 
 
 
     <script>
-        // 回歸玩家七天簽到獎勵配置
+        // 回歸玩家七天簽到獎勵配置（已完善獎勵內容）
         const returningRewards = [
             {
                 day: 1,
                 title: '驚喜盲盒',
                 description: '神秘獎勵等你開啟',
+                actualDescription: '恭喜獲得100元折扣券！',
                 icon: 'gift',
                 rarity: 'common',
-                color: 'bg-blue-500'
+                color: 'bg-blue-500',
+                rewards: [
+                    { type: 'coupon', name: '100元折扣券', maxDiscount: 100, minSpend: 500, icon: 'fa-ticket' }
+                ]
             },
             {
                 day: 2,
                 title: '驚喜盲盒',
                 description: '神秘獎勵等你開啟',
+                actualDescription: '恭喜獲得200元折扣券！',
                 icon: 'gift',
                 rarity: 'uncommon',
-                color: 'bg-green-500'
+                color: 'bg-green-500',
+                rewards: [
+                    { type: 'coupon', name: '200元折扣券', maxDiscount: 200, minSpend: 1000, icon: 'fa-ticket' }
+                ]
             },
             {
                 day: 3,
                 title: '驚喜盲盒',
                 description: '神秘獎勵等你開啟',
+                actualDescription: '恭喜獲得300元折扣券！',
                 icon: 'gift',
                 rarity: 'uncommon',
-                color: 'bg-yellow-500'
+                color: 'bg-yellow-500',
+                rewards: [
+                    { type: 'coupon', name: '300元折扣券', maxDiscount: 300, minSpend: 1500, icon: 'fa-ticket' }
+                ]
             },
             {
                 day: 4,
                 title: '驚喜盲盒',
                 description: '神秘獎勵等你開啟',
+                actualDescription: '恭喜獲得400元折扣券！',
                 icon: 'gift',
                 rarity: 'rare',
-                color: 'bg-purple-500'
+                color: 'bg-purple-500',
+                rewards: [
+                    { type: 'coupon', name: '400元折扣券', maxDiscount: 400, minSpend: 2000, icon: 'fa-ticket' }
+                ]
             },
             {
                 day: 5,
                 title: '驚喜盲盒',
                 description: '神秘獎勵等你開啟',
+                actualDescription: '恭喜獲得500元折扣券！',
                 icon: 'gift',
                 rarity: 'rare',
-                color: 'bg-pink-500'
+                color: 'bg-pink-500',
+                rewards: [
+                    { type: 'coupon', name: '500元折扣券', maxDiscount: 500, minSpend: 2500, icon: 'fa-ticket' }
+                ]
             },
             {
                 day: 6,
                 title: '驚喜盲盒',
                 description: '神秘獎勵等你開啟',
+                actualDescription: '恭喜獲得600元折扣券！',
                 icon: 'gift',
                 rarity: 'epic',
-                color: 'bg-orange-500'
+                color: 'bg-orange-500',
+                rewards: [
+                    { type: 'coupon', name: '600元折扣券', maxDiscount: 600, minSpend: 3000, icon: 'fa-ticket' }
+                ]
             },
             {
                 day: 7,
                 title: '終極盲盒',
                 description: '超級神秘大獎等你開啟',
+                actualDescription: '恭喜獲得668元折扣券！',
                 icon: 'gift',
                 rarity: 'legendary',
-                color: 'bg-red-500'
+                color: 'bg-red-500',
+                rewards: [
+                    { type: 'coupon', name: '668元折扣券', maxDiscount: 668, minSpend: 3500, icon: 'fa-trophy' }
+                ]
             }
         ];
 
@@ -527,8 +591,8 @@
         document.getElementById('currentMonth').textContent = `${currentYear}年${currentMonth + 1}月`;
         
         // 更新回歸玩家數據顯示
-        document.getElementById('returningStreakDays').textContent = checkinData.returningPlayer.checkinDays;
-        document.getElementById('returningProgressBar').style.width = `${(checkinData.returningPlayer.checkinDays / 7) * 100}%`;
+        document.getElementById('currentDay').textContent = checkinData.returningPlayer.checkinDays + 1;
+        document.getElementById('progressBar').style.width = `${((checkinData.returningPlayer.checkinDays + 1) / 7) * 100}%`;
 
         // 檢查今日是否已簽到
         const isCheckedToday = checkinData.checkinHistory.includes(todayString);
@@ -543,42 +607,32 @@
         // 檢查回歸簽到狀態
         const isReturningCheckedToday = checkinData.returningPlayer.claimedRewards.includes(checkinData.returningPlayer.checkinDays + 1);
         if (isReturningCheckedToday) {
-            document.getElementById('returningCheckinBtn').disabled = true;
-            document.getElementById('returningCheckinBtn').classList.add('bg-gray-400');
-            document.getElementById('returningCheckinBtn').classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-pink-500', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
-            document.getElementById('returningCheckinBtn').innerHTML = '<i class="fa fa-check-circle mr-2"></i>今日已領取';
-            document.getElementById('returningCheckinStatus').textContent = '明日再来領取奖励';
+            document.getElementById('checkinBtn').disabled = true;
+            document.getElementById('checkinBtn').classList.add('bg-gray-400');
+            document.getElementById('checkinBtn').classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-pink-500', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
+            document.getElementById('checkinBtn').innerHTML = '<i class="fa fa-check-circle mr-2"></i>今日已領取';
+            document.getElementById('checkinStatus').textContent = '明日再来領取奖励';
         } else {
             // 确保按钮是可用的
-            document.getElementById('returningCheckinBtn').disabled = false;
-            document.getElementById('returningCheckinBtn').classList.remove('bg-gray-400');
-            document.getElementById('returningCheckinBtn').classList.add('bg-gradient-to-r', 'from-purple-600', 'to-pink-500', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
-            document.getElementById('returningCheckinBtn').innerHTML = '<i class="fa fa-gift mr-2"></i>領取今日獎勵';
-            document.getElementById('returningCheckinStatus').textContent = '完成今日簽到領取專屬獎勵';
+            document.getElementById('checkinBtn').disabled = false;
+            document.getElementById('checkinBtn').classList.remove('bg-gray-400');
+            document.getElementById('checkinBtn').classList.add('bg-gradient-to-r', 'from-purple-600', 'to-pink-500', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
+            document.getElementById('checkinBtn').innerHTML = '<i class="fa fa-gift mr-2"></i>領取今日獎勵';
+            document.getElementById('checkinStatus').textContent = '完成今日簽到領取專屬獎勵';
         }
 
         // 初始化回歸簽到卡片
         generateReturningCheckinCards();
-
-        // 初始化日曆
-        generateCalendar(currentYear, currentMonth);
-
-        // 初始化圖表
-        initCharts();
 
         // 初始化倒計時
         updateCountdown();
         setInterval(updateCountdown, 60000); // 每分钟更新一次
 
         // 事件監聽
-        document.getElementById('checkinBtn').addEventListener('click', handleCheckin);
-        document.getElementById('returningCheckinBtn').addEventListener('click', handleReturningCheckin);
+        document.getElementById('checkinBtn').addEventListener('click', handleReturningCheckin);
 
         document.getElementById('closeModal').addEventListener('click', closeCheckinModal);
-
         document.getElementById('closeReturningModal').addEventListener('click', closeReturningCheckinModal);
-        document.getElementById('prevMonth').addEventListener('click', () => changeMonth(-1));
-        document.getElementById('nextMonth').addEventListener('click', () => changeMonth(1));
 
         // 回歸玩家簽到處理函數
         function handleReturningCheckin() {
@@ -607,14 +661,14 @@
             console.log('數據已保存');
 
             // 更新UI
-            document.getElementById('returningStreakDays').textContent = checkinData.returningPlayer.checkinDays;
-            document.getElementById('returningProgressBar').style.width = `${(checkinData.returningPlayer.checkinDays / 7) * 100}%`;
+            document.getElementById('currentDay').textContent = checkinData.returningPlayer.checkinDays + 1;
+            document.getElementById('progressBar').style.width = `${((checkinData.returningPlayer.checkinDays + 1) / 7) * 100}%`;
             
-            document.getElementById('returningCheckinBtn').disabled = true;
-            document.getElementById('returningCheckinBtn').classList.add('bg-gray-400');
-            document.getElementById('returningCheckinBtn').classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-pink-500', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
-            document.getElementById('returningCheckinBtn').innerHTML = '<i class="fa fa-check-circle mr-2"></i>今日已领取';
-            document.getElementById('returningCheckinStatus').textContent = '明日再来領取獎勵';
+            document.getElementById('checkinBtn').disabled = true;
+            document.getElementById('checkinBtn').classList.add('bg-gray-400');
+            document.getElementById('checkinBtn').classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-pink-500', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
+            document.getElementById('checkinBtn').innerHTML = '<i class="fa fa-check-circle mr-2"></i>今日已领取';
+            document.getElementById('checkinStatus').textContent = '明日再来領取獎勵';
 
             // 重新生成回歸簽到卡片
             generateReturningCheckinCards();
@@ -624,7 +678,9 @@
             createConfetti();
             console.log('慶祝效果已創建');
 
-            console.log('簽到成功');
+            // 顯示簽到成功彈窗
+            showReturningCheckinModal(currentDay);
+            console.log('簽到成功，彈窗已顯示');
         }
 
         // 普通簽到處理函數
@@ -1150,6 +1206,18 @@
                 saveCheckinData();
                 document.getElementById('streakDays').textContent = '0';
             }
+        }
+
+        // 获取物品类型名称
+        function getItemTypeName(type) {
+            const typeNames = {
+                'coupon': '折扣券',
+                'coin': '游戏币',
+                'diamond': '钻石',
+                'item': '物品',
+                'skin': '皮肤'
+            };
+            return typeNames[type] || '奖励';
         }
 
         // 初始化時檢查連續簽到
