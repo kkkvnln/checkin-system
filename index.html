@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回歸豪禮最高可抵2768元！</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <!-- 統一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF9500',
+                        secondary: '#1E88E5',
+                        success: '#4CAF50',
+                        background: '#F5F7FA',
+                        accent: '#FFD700',
+                        dark: '#2C3E50',
+                        light: '#ECF0F1'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 3s linear infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'shine': 'shine 1.5s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shine: {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0.5 },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .text-shadow-lg {
+                text-shadow: 0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
+            }
+            .card-shadow {
+                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #FF9500 0%, #FF5E3A 100%);
+            }
+            .gradient-text {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(135deg, #FF9500 0%, #FF5E3A 100%);
+            }
+            .calendar-day {
+                transition: all 0.2s ease;
+            }
+            .calendar-day:hover:not(.calendar-day-disabled) {
+                transform: scale(1.1);
+            }
+            .calendar-day-checked {
+                background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+                color: white;
+                position: relative;
+            }
+            .calendar-day-checked::after {
+                content: '✓';
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                background: #FFD700;
+                color: #2C3E50;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: bold;
+            }
+            .calendar-day-today {
+                border: 2px solid #FF9500;
+            }
+            .calendar-day-disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+            .calendar-day-reward {
+                position: relative;
+            }
+            .calendar-day-reward::before {
+                content: '🎁';
+                position: absolute;
+                top: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 14px;
+                animation: bounce 1s infinite;
+            }
+            .badge {
+                position: relative;
+                overflow: hidden;
+            }
+            .badge::after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(
+                    to bottom right,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    rgba(255, 255, 255, 0) 100%
+                );
+                transform: rotate(45deg);
+                animation: shine 3s infinite;
+            }
+            .progress-bar {
+                position: relative;
+                overflow: hidden;
+            }
+            .progress-bar::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.4) 50%,
+                    rgba(255, 255, 255, 0) 100%
+                );
+                animation: shine 2s infinite;
+            }
+            @keyframes shine {
+                0% {
+                    transform: translateX(-100%);
+                }
+                100% {
+                    transform: translateX(100%);
+                }
+            }
+            .confetti {
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                background-color: #f00;
+                border-radius: 50%;
+                animation: confetti-fall 3s ease-in-out forwards;
+            }
+            @keyframes confetti-fall {
+                0% {
+                    transform: translateY(-100vh) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen font-sans text-dark">
+    <!-- 顶部导航栏 -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                    <i class="fa fa-calendar-check-o text-white text-xl"></i>
+                </div>
+                <h1 class="text-xl font-bold gradient-text text-shadow-lg animate-pulse-slow">回歸豪禮最高可抵2768元！</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="notificationBtn" class="relative p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fa fa-bell-o text-gray-600"></i>
+                    <span class="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">3</span>
+                </button>
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
+                        <span class="text-white font-bold">玩家</span>
+                    </div>
+                    <span class="hidden md:inline font-medium">遊戲玩家</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 活动横幅 -->
+    <div class="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-10"></div>
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between relative z-10">
+            <div class="flex items-center mb-4 md:mb-0">
+                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-3 animate-pulse-slow">
+                    <i class="fa fa-star text-yellow-300 text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold">驚喜盲盒簽到活動</h2>
+                    <p class="text-sm text-white/80">連續7天簽到，每日驚喜盲盒等你開啟</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-clock-o"></i>
+                <span>活動剩餘時間：</span>
+                <div class="flex items-center space-x-1">
+                    <span id="daysLeft" class="bg-white/20 px-2 py-1 rounded text-sm font-bold">6</span>
+                    <span>天</span>
+                    <span id="hoursLeft" class="bg-white/20 px-2 py-1 rounded text-sm font-bold">23</span>
+                    <span>时</span>
+                    <span id="minutesLeft" class="bg-white/20 px-2 py-1 rounded text-sm font-bold">45</span>
+                    <span>分</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容區 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 統計卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl p-6 card-shadow card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-gray-500 font-medium">連續簽到</h3>
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <i class="fa fa-fire text-primary"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold" id="streakDays">5</p>
+                <p class="text-sm text-gray-500">天</p>
+                <div class="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary rounded-full progress-bar" style="width: 50%"></div>
+                </div>
+                <p class="mt-2 text-xs text-gray-500">距離下一個獎勵還需要 5 天</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 card-shadow card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-gray-500 font-medium">總簽到天數</h3>
+                    <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                        <i class="fa fa-calendar text-secondary"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold" id="totalDays">45</p>
+                <p class="text-sm text-gray-500">天</p>
+                <div class="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-secondary rounded-full progress-bar" style="width: 45%"></div>
+                </div>
+                <p class="mt-2 text-xs text-gray-500">目標：100 天</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 card-shadow card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-gray-500 font-medium">本月簽到</h3>
+                    <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center">
+                        <i class="fa fa-check-circle text-success"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold" id="monthlyDays">15</p>
+                <p class="text-sm text-gray-500">天</p>
+                <div class="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-success rounded-full progress-bar" style="width: 50%"></div>
+                </div>
+                <p class="mt-2 text-xs text-gray-500">本月已簽到 50%</p>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 card-shadow card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-gray-500 font-medium">簽到率</h3>
+                    <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                        <i class="fa fa-line-chart text-accent"></i>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold" id="checkinRate">85%</p>
+                <p class="text-sm text-gray-500">總簽到率</p>
+                <div class="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-accent rounded-full progress-bar" style="width: 85%"></div>
+                </div>
+                <p class="mt-2 text-xs text-gray-500">超過 90% 的玩家</p>
+            </div>
+        </div>
+
+        <!-- 7天驚喜盲盒簽到 -->
+        <div class="mt-8">
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6 card-shadow border border-purple-100">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center mr-3">
+                            <i class="fa fa-calendar-check-o text-white text-xl"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-purple-800">7天驚喜盲盒簽到</h2>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center">
+                            <i class="fa fa-fire text-white"></i>
+                        </div>
+                        <span class="font-bold text-pink-600" id="currentDay">1</span>
+                        <span class="text-gray-600">/7天</span>
+                    </div>
+                </div>
+
+                <!-- 七天簽到进度条 -->
+                <div class="mb-8">
+                    <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                        <div id="progressBar" class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full progress-bar" style="width: 14.29%"></div>
+                    </div>
+                    <div class="flex justify-between mt-2 text-xs text-gray-500">
+                        <span>第1天</span>
+                        <span>第2天</span>
+                        <span>第3天</span>
+                        <span>第4天</span>
+                        <span>第5天</span>
+                        <span>第6天</span>
+                        <span>第7天</span>
+                    </div>
+                </div>
+
+                <!-- 七天簽到卡片 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8" id="checkinCards">
+                    <!-- 簽到卡片將通過JavaScript動態生成 -->
+                </div>
+
+                <!-- 今日簽到按鈕 -->
+                <div class="mt-8 text-center">
+                    <button id="checkinBtn" class="px-8 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95">
+                        <i class="fa fa-gift mr-2"></i>領取今日獎勵
+                    </button>
+                    <p class="mt-3 text-sm text-gray-500" id="checkinStatus">完成今日簽到領取專屬獎勵</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white mt-12 py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                            <i class="fa fa-calendar-check-o text-white"></i>
+                        </div>
+                        <h2 class="text-lg font-bold">遊戲簽到獎勵系統</h2>
+                    </div>
+                    <p class="text-gray-400 text-sm mt-2">每日簽到，領取豐厚獎勵</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-question-circle"></i> 幫助中心
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-envelope"></i> 聯繫我們
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-info-circle"></i> 關於系統
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400 text-sm">
+                © 2023 遊戲簽到獎勵系統 | 版權所有
+            </div>
+        </div>
+    </footer>
+
+    <!-- 簽到成功彈窗 -->
+    <div id="checkinModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 relative z-10 transform transition-all animate-float">
+            <div class="text-center">
+                <div class="w-20 h-20 rounded-full bg-success flex items-center justify-center mx-auto mb-4">
+                    <i class="fa fa-check text-white text-4xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-2">簽到成功！</h2>
+                <p class="text-gray-600 mb-6">恭喜你獲得今日獎勵</p>
+                
+                <div class="bg-gradient-to-r from-purple-600 to-pink-500 rounded-lg p-6 mb-6">
+                    <div class="flex items-center justify-center">
+                        <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center">
+                            <i class="fa fa-gift text-primary text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <h3 class="font-bold text-white text-lg">神秘獎勵</h3>
+                        <p class="text-white/90 text-sm">獎勵已發放至您的賬戶</p>
+                    </div>
+                </div>
+                
+                <button id="closeModal" class="w-full py-3 rounded-full bg-primary text-white font-bold hover:bg-primary/90 transition-colors">
+                    領取獎勵
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+        // 回歸玩家七天簽到獎勵配置
+        const returningRewards = [
+            {
+                day: 1,
+                title: '驚喜盲盒',
+                description: '神秘獎勵等你開啟',
+                icon: 'gift',
+                rarity: 'common',
+                color: 'bg-blue-500'
+            },
+            {
+                day: 2,
+                title: '驚喜盲盒',
+                description: '神秘獎勵等你開啟',
+                icon: 'gift',
+                rarity: 'uncommon',
+                color: 'bg-green-500'
+            },
+            {
+                day: 3,
+                title: '驚喜盲盒',
+                description: '神秘獎勵等你開啟',
+                icon: 'gift',
+                rarity: 'uncommon',
+                color: 'bg-yellow-500'
+            },
+            {
+                day: 4,
+                title: '驚喜盲盒',
+                description: '神秘獎勵等你開啟',
+                icon: 'gift',
+                rarity: 'rare',
+                color: 'bg-purple-500'
+            },
+            {
+                day: 5,
+                title: '驚喜盲盒',
+                description: '神秘獎勵等你開啟',
+                icon: 'gift',
+                rarity: 'rare',
+                color: 'bg-pink-500'
+            },
+            {
+                day: 6,
+                title: '驚喜盲盒',
+                description: '神秘獎勵等你開啟',
+                icon: 'gift',
+                rarity: 'epic',
+                color: 'bg-orange-500'
+            },
+            {
+                day: 7,
+                title: '終極盲盒',
+                description: '超級神秘大獎等你開啟',
+                icon: 'gift',
+                rarity: 'legendary',
+                color: 'bg-red-500'
+            }
+        ];
+
+        // 初始化數據
+        let checkinData = {
+            lastCheckin: localStorage.getItem('lastCheckin') || '',
+            streakDays: parseInt(localStorage.getItem('streakDays')) || 0,
+            totalDays: parseInt(localStorage.getItem('totalDays')) || 0,
+            monthlyDays: parseInt(localStorage.getItem('monthlyDays')) || 0,
+            checkinHistory: JSON.parse(localStorage.getItem('checkinHistory')) || [],
+            rewards: JSON.parse(localStorage.getItem('rewards')) || {
+                claimed: [],
+                specialClaimed: []
+            },
+            achievements: JSON.parse(localStorage.getItem('achievements')) || {
+                unlocked: ['beginner'],
+                progress: {
+                    week_streak: 5,
+                    month_streak: 5,
+                    total_50days: 45,
+                    total_100days: 45
+                }
+            },
+            // 回歸玩家數據
+            returningPlayer: JSON.parse(localStorage.getItem('returningPlayer')) || {
+                isActive: true,
+                startDate: localStorage.getItem('returningStartDate') || formatDate(new Date()),
+                daysLeft: 29,
+                checkinDays: 0,
+                claimedRewards: []
+            }
+        };
+
+        // 獲取當前日期
+        const today = new Date();
+        const todayString = formatDate(today);
+        const currentMonth = today.getMonth();
+        const currentYear = today.getFullYear();
+
+        // 更新UI顯示
+        document.getElementById('streakDays').textContent = checkinData.streakDays;
+        document.getElementById('totalDays').textContent = checkinData.totalDays;
+        document.getElementById('monthlyDays').textContent = checkinData.monthlyDays;
+        document.getElementById('checkinRate').textContent = calculateCheckinRate() + '%';
+        document.getElementById('currentMonth').textContent = `${currentYear}年${currentMonth + 1}月`;
+        
+        // 更新回歸玩家數據顯示
+        document.getElementById('returningStreakDays').textContent = checkinData.returningPlayer.checkinDays;
+        document.getElementById('returningProgressBar').style.width = `${(checkinData.returningPlayer.checkinDays / 7) * 100}%`;
+
+        // 檢查今日是否已簽到
+        const isCheckedToday = checkinData.checkinHistory.includes(todayString);
+        if (isCheckedToday) {
+            document.getElementById('checkinBtn').disabled = true;
+            document.getElementById('checkinBtn').classList.add('bg-gray-400');
+            document.getElementById('checkinBtn').classList.remove('gradient-bg', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
+            document.getElementById('checkinBtn').innerHTML = '<i class="fa fa-check-circle mr-2"></i>今日已簽到';
+            document.getElementById('checkinStatus').textContent = '明日再來簽到吧';
+        }
+
+        // 檢查回歸簽到狀態
+        const isReturningCheckedToday = checkinData.returningPlayer.claimedRewards.includes(checkinData.returningPlayer.checkinDays + 1);
+        if (isReturningCheckedToday) {
+            document.getElementById('returningCheckinBtn').disabled = true;
+            document.getElementById('returningCheckinBtn').classList.add('bg-gray-400');
+            document.getElementById('returningCheckinBtn').classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-pink-500', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
+            document.getElementById('returningCheckinBtn').innerHTML = '<i class="fa fa-check-circle mr-2"></i>今日已領取';
+            document.getElementById('returningCheckinStatus').textContent = '明日再来領取奖励';
+        } else {
+            // 确保按钮是可用的
+            document.getElementById('returningCheckinBtn').disabled = false;
+            document.getElementById('returningCheckinBtn').classList.remove('bg-gray-400');
+            document.getElementById('returningCheckinBtn').classList.add('bg-gradient-to-r', 'from-purple-600', 'to-pink-500', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
+            document.getElementById('returningCheckinBtn').innerHTML = '<i class="fa fa-gift mr-2"></i>領取今日獎勵';
+            document.getElementById('returningCheckinStatus').textContent = '完成今日簽到領取專屬獎勵';
+        }
+
+        // 初始化回歸簽到卡片
+        generateReturningCheckinCards();
+
+        // 初始化日曆
+        generateCalendar(currentYear, currentMonth);
+
+        // 初始化圖表
+        initCharts();
+
+        // 初始化倒計時
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // 每分钟更新一次
+
+        // 事件監聽
+        document.getElementById('checkinBtn').addEventListener('click', handleCheckin);
+        document.getElementById('returningCheckinBtn').addEventListener('click', handleReturningCheckin);
+
+        document.getElementById('closeModal').addEventListener('click', closeCheckinModal);
+
+        document.getElementById('closeReturningModal').addEventListener('click', closeReturningCheckinModal);
+        document.getElementById('prevMonth').addEventListener('click', () => changeMonth(-1));
+        document.getElementById('nextMonth').addEventListener('click', () => changeMonth(1));
+
+        // 回歸玩家簽到處理函數
+        function handleReturningCheckin() {
+            console.log('回歸簽到按鈕被點擊');
+            const currentDay = checkinData.returningPlayer.checkinDays + 1;
+            console.log('当前天数:', currentDay);
+            console.log('已領取獎勵:', checkinData.returningPlayer.claimedRewards);
+            
+            if (checkinData.returningPlayer.claimedRewards.includes(currentDay)) {
+                console.log('今日已簽到');
+                return;
+            }
+
+            // 更新回歸簽到數據
+            checkinData.returningPlayer.checkinDays += 1;
+            checkinData.returningPlayer.claimedRewards.push(currentDay);
+            console.log('更新後簽到天數:', checkinData.returningPlayer.checkinDays);
+
+            // 檢查是否完成所有簽到
+            if (checkinData.returningPlayer.checkinDays >= 7) {
+                checkinData.returningPlayer.isActive = false;
+            }
+
+            // 保存數據
+            saveCheckinData();
+            console.log('數據已保存');
+
+            // 更新UI
+            document.getElementById('returningStreakDays').textContent = checkinData.returningPlayer.checkinDays;
+            document.getElementById('returningProgressBar').style.width = `${(checkinData.returningPlayer.checkinDays / 7) * 100}%`;
+            
+            document.getElementById('returningCheckinBtn').disabled = true;
+            document.getElementById('returningCheckinBtn').classList.add('bg-gray-400');
+            document.getElementById('returningCheckinBtn').classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-pink-500', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
+            document.getElementById('returningCheckinBtn').innerHTML = '<i class="fa fa-check-circle mr-2"></i>今日已领取';
+            document.getElementById('returningCheckinStatus').textContent = '明日再来領取獎勵';
+
+            // 重新生成回歸簽到卡片
+            generateReturningCheckinCards();
+            console.log('卡片已更新');
+
+            // 創建慶祝效果
+            createConfetti();
+            console.log('慶祝效果已創建');
+
+            console.log('簽到成功');
+        }
+
+        // 普通簽到處理函數
+        function handleCheckin() {
+            if (isCheckedToday) return;
+
+            // 更新簽到數據
+            checkinData.lastCheckin = todayString;
+            checkinData.streakDays += 1;
+            checkinData.totalDays += 1;
+            checkinData.monthlyDays += 1;
+            checkinData.checkinHistory.push(todayString);
+            checkinData.rewards.claimed.push(todayString);
+
+            // 檢查連續簽到獎勵
+            checkSpecialRewards();
+
+            // 檢查成就解鎖
+            checkAchievements();
+
+            // 保存數據
+            saveCheckinData();
+
+            // 更新UI
+            document.getElementById('streakDays').textContent = checkinData.streakDays;
+            document.getElementById('totalDays').textContent = checkinData.totalDays;
+            document.getElementById('monthlyDays').textContent = checkinData.monthlyDays;
+            document.getElementById('checkinRate').textContent = calculateCheckinRate() + '%';
+            
+            document.getElementById('checkinBtn').disabled = true;
+            document.getElementById('checkinBtn').classList.add('bg-gray-400');
+            document.getElementById('checkinBtn').classList.remove('gradient-bg', 'hover:shadow-xl', 'hover:scale-105', 'active:scale-95');
+            document.getElementById('checkinBtn').innerHTML = '<i class="fa fa-check-circle mr-2"></i>今日已簽到';
+            document.getElementById('checkinStatus').textContent = '明日再來簽到吧';
+
+            // 重新生成日曆
+            generateCalendar(currentYear, currentMonth);
+
+            // 創建慶祝效果
+            createConfetti();
+
+            // 顯示簽到成功彈窗
+            document.getElementById('checkinModal').classList.remove('hidden');
+        }
+
+        // 檢查特殊獎勵
+        function checkSpecialRewards() {
+            const streakRewards = [3, 7, 15, 30];
+            
+            streakRewards.forEach(days => {
+                if (checkinData.streakDays === days && !checkinData.rewards.specialClaimed.includes(`streak_${days}days`)) {
+                    checkinData.rewards.specialClaimed.push(`streak_${days}days`);
+                    // 这里可以添加特殊奖励领取逻辑
+                }
+            });
+        }
+
+        // 檢查成就解鎖
+        function checkAchievements() {
+            // 檢查連續簽到7天成就
+            if (checkinData.streakDays >= 7 && !checkinData.achievements.unlocked.includes('week_streak')) {
+                checkinData.achievements.unlocked.push('week_streak');
+                setTimeout(() => {
+                    document.getElementById('achievementModal').classList.remove('hidden');
+                }, 2000);
+            }
+
+            // 检查月度达人成就
+            if (checkinData.monthlyDays >= 10 && !checkinData.achievements.unlocked.includes('month_master')) {
+                checkinData.achievements.unlocked.push('month_master');
+            }
+
+            // 檢查簽到大師成就
+            if (checkinData.totalDays >= 100 && !checkinData.achievements.unlocked.includes('checkin_master')) {
+                checkinData.achievements.unlocked.push('checkin_master');
+            }
+
+            // 更新成就进度
+            checkinData.achievements.progress.week_streak = Math.min(checkinData.streakDays, 7);
+            checkinData.achievements.progress.month_streak = Math.min(checkinData.streakDays, 30);
+            checkinData.achievements.progress.total_50days = Math.min(checkinData.totalDays, 50);
+            checkinData.achievements.progress.total_100days = Math.min(checkinData.totalDays, 100);
+        }
+
+        // 生成日曆
+        function generateCalendar(year, month) {
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+
+            // 添加上个月的日期
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day calendar-day-disabled h-12 rounded-lg flex items-center justify-center text-sm';
+                day.textContent = new Date(year, month, -startingDayOfWeek + i + 1).getDate();
+                calendarGrid.appendChild(day);
+            }
+
+            // 添加当月的日期
+            for (let i = 1; i <= daysInMonth; i++) {
+                const date = new Date(year, month, i);
+                const dateString = formatDate(date);
+                const day = document.createElement('div');
+                
+                day.className = 'calendar-day h-12 rounded-lg flex items-center justify-center text-sm cursor-pointer';
+                
+                // 檢查是否已簽到
+                if (checkinData.checkinHistory.includes(dateString)) {
+                    day.classList.add('calendar-day-checked');
+                }
+                
+                // 檢查是否是今天
+                if (dateString === todayString) {
+                    day.classList.add('calendar-day-today');
+                }
+                
+                // 檢查是否是未来日期
+                if (date > today) {
+                    day.classList.add('calendar-day-disabled');
+                }
+                
+                // 檢查是否有特殊獎勵
+                const specialDays = [3, 7, 15, 30];
+                if (specialDays.includes(i)) {
+                    day.classList.add('calendar-day-reward');
+                }
+                
+                day.textContent = i;
+                calendarGrid.appendChild(day);
+            }
+        }
+
+        // 切換月份
+        let displayYear = currentYear;
+        let displayMonth = currentMonth;
+
+        function changeMonth(direction) {
+            displayMonth += direction;
+            
+            if (displayMonth > 11) {
+                displayMonth = 0;
+                displayYear++;
+            } else if (displayMonth < 0) {
+                displayMonth = 11;
+                displayYear--;
+            }
+            
+            document.getElementById('currentMonth').textContent = `${displayYear}年${displayMonth + 1}月`;
+            generateCalendar(displayYear, displayMonth);
+        }
+
+        // 初始化圖表
+        function initCharts() {
+            // 簽到趨勢圖表
+            const trendCtx = document.getElementById('checkinTrendChart').getContext('2d');
+            const trendChart = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                    datasets: [{
+                        label: '簽到天數',
+                        data: [25, 22, 28, 26, 15, 0],
+                        borderColor: '#FF9500',
+                        backgroundColor: 'rgba(255, 149, 0, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 31,
+                            ticks: {
+                                stepSize: 5
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 簽到時段分佈圖表
+            const timeCtx = document.getElementById('checkinTimeChart').getContext('2d');
+            const timeChart = new Chart(timeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['6-9点', '9-12点', '12-15点', '15-18点', '18-21点', '21-24点'],
+                    datasets: [{
+                        label: '簽到人數',
+                        data: [15, 25, 10, 20, 35, 15],
+                        backgroundColor: [
+                            'rgba(30, 136, 229, 0.7)',
+                            'rgba(30, 136, 229, 0.8)',
+                            'rgba(30, 136, 229, 0.6)',
+                            'rgba(30, 136, 229, 0.9)',
+                            'rgba(30, 136, 229, 1)',
+                            'rgba(30, 136, 229, 0.7)'
+                        ],
+                        borderWidth: 0,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // 創建慶祝效果
+        function createConfetti() {
+            const colors = ['#FF9500', '#1E88E5', '#4CAF50', '#FFD700', '#9C27B0', '#FF5252'];
+            const container = document.createElement('div');
+            container.style.position = 'fixed';
+            container.style.top = '0';
+            container.style.left = '0';
+            container.style.width = '100%';
+            container.style.height = '100%';
+            container.style.pointerEvents = 'none';
+            container.style.zIndex = '9999';
+            document.body.appendChild(container);
+
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.animationDelay = `${Math.random() * 3}s`;
+                confetti.style.animationDuration = `${3 + Math.random() * 2}s`;
+                container.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(container);
+            }, 5000);
+        }
+
+        // 關閉簽到彈窗
+        function closeCheckinModal() {
+            document.getElementById('checkinModal').classList.add('hidden');
+        }
+
+        // 關閉成就彈窗
+        function closeAchievementModal() {
+            document.getElementById('achievementModal').classList.add('hidden');
+        }
+
+        // 關閉回歸簽到彈窗
+        function closeReturningCheckinModal() {
+            document.getElementById('returningCheckinModal').classList.add('hidden');
+        }
+
+        // 生成回歸簽到卡片
+        function generateReturningCheckinCards() {
+            const container = document.getElementById('returningCheckinCards');
+            container.innerHTML = '';
+
+            returningRewards.forEach(reward => {
+                const isClaimed = checkinData.returningPlayer.claimedRewards.includes(reward.day);
+                const isCurrentDay = reward.day === checkinData.returningPlayer.checkinDays + 1;
+                const isLocked = reward.day > checkinData.returningPlayer.checkinDays + 1;
+
+                let cardClass = 'bg-white rounded-lg p-4 border card-hover transition-all';
+                let iconClass = `${reward.color} text-white`;
+                let rarityBadge = '';
+
+                // 根據稀有度設置邊框顏色
+                switch (reward.rarity) {
+                    case 'legendary':
+                        cardClass += ' border-yellow-300';
+                        rarityBadge = '<span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">传说</span>';
+                        break;
+                    case 'epic':
+                        cardClass += ' border-purple-300';
+                        rarityBadge = '<span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">史诗</span>';
+                        break;
+                    case 'rare':
+                        cardClass += ' border-blue-300';
+                        rarityBadge = '<span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">稀有</span>';
+                        break;
+                    case 'uncommon':
+                        cardClass += ' border-green-300';
+                        rarityBadge = '<span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">优秀</span>';
+                        break;
+                    default:
+                        cardClass += ' border-gray-200';
+                        rarityBadge = '<span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full">普通</span>';
+                }
+
+                if (isClaimed) {
+                    cardClass += ' opacity-70';
+                    iconClass += ' opacity-70';
+                }
+
+                if (isCurrentDay && !isClaimed) {
+                    cardClass += ' ring-2 ring-purple-500 ring-offset-2 animate-pulse-slow';
+                }
+
+                if (isLocked) {
+                    cardClass += ' opacity-40';
+                    iconClass += ' opacity-40';
+                }
+
+                const card = document.createElement('div');
+                card.className = cardClass;
+                
+                // 盲盒效果：未領取的獎勵顯示為神秘狀態
+                if (isClaimed) {
+                    // 已領取的顯示真實獎勵
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-full ${iconClass} flex items-center justify-center">
+                                <i class="fa fa-${reward.icon}"></i>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded-full">第${reward.day}天</span>
+                                ${rarityBadge}
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-sm mb-1">${reward.title}</h3>
+                        <p class="text-xs text-gray-600 mb-3">${reward.actualDescription}</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${reward.rewards.map(r => `
+                                <span class="text-xs bg-gray-50 px-2 py-1 rounded-full flex items-center">
+                                    <i class="fa ${r.icon} mr-1"></i>
+                                    ${r.name || '獎勵'}
+                                </span>
+                            `).join('')}
+                        </div>
+                        <div class="mt-3 text-center">
+                            <span class="text-xs bg-green-100 text-green-800 px-3 py-1 rounded-full">已領取</span>
+                        </div>
+                    `;
+                } else {
+                    // 未領取的顯示盲盒狀態
+                    let mysteryEffect = isCurrentDay ? 'animate-pulse-slow' : '';
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 flex items-center justify-center ${mysteryEffect}">
+                                <i class="fa fa-gift"></i>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs font-bold bg-gray-100 text-gray-800 px-2 py-1 rounded-full">第${reward.day}天</span>
+                                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">神秘奖励</span>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-sm mb-1">${reward.title}</h3>
+                        <p class="text-xs text-gray-600 mb-3">${reward.description}</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs bg-gray-50 px-2 py-1 rounded-full flex items-center animate-pulse-slow">
+                                <i class="fa fa-question-circle mr-1"></i>
+                                ???
+                            </span>
+                            <span class="text-xs bg-gray-50 px-2 py-1 rounded-full flex items-center animate-pulse-slow">
+                                <i class="fa fa-question-circle mr-1"></i>
+                                ???
+                            </span>
+                        </div>
+                        ${isCurrentDay ? `
+                            <div class="mt-3 text-center">
+                                <span class="text-xs bg-purple-100 text-purple-800 px-3 py-1 rounded-full animate-pulse-slow">可领取</span>
+                            </div>
+                        ` : isLocked ? `
+                            <div class="mt-3 text-center">
+                                <span class="text-xs bg-gray-100 text-gray-800 px-3 py-1 rounded-full">未解锁</span>
+                            </div>
+                        ` : ''}
+                    `;
+                }
+
+                container.appendChild(card);
+            });
+        }
+
+        // 顯示回歸簽到成功彈窗
+        function showReturningCheckinModal(day) {
+            const reward = returningRewards.find(r => r.day === day);
+            if (!reward) return;
+
+            document.getElementById('returningDayNumber').textContent = day;
+            document.getElementById('returningRewardTitle').textContent = reward.title;
+            document.getElementById('returningRewardDescription').textContent = reward.actualDescription;
+            document.getElementById('returningRewardIcon').className = `fa fa-${reward.icon} text-purple-600 text-xl`;
+
+            const itemsContainer = document.getElementById('returningRewardItems');
+            itemsContainer.innerHTML = '';
+
+            reward.rewards.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'bg-gray-50 rounded-lg p-3 flex items-center space-x-3';
+                
+                let itemDetails = '';
+                if (item.type === 'coupon') {
+                    itemDetails = `
+                        <div>
+                            <p class="font-bold text-purple-800">${item.name}</p>
+                            <p class="text-xs text-gray-600">最高折抵${item.maxDiscount}元</p>
+                            <p class="text-xs text-gray-600">滿${item.minSpend}元可使用</p>
+                        </div>
+                    `;
+                } else {
+                    itemDetails = `
+                        <div>
+                            <p class="font-bold text-purple-800">+${item.amount || item.name}</p>
+                            <p class="text-xs text-gray-600">${getItemTypeName(item.type)}</p>
+                        </div>
+                    `;
+                }
+                
+                itemElement.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+                        <i class="fa ${item.icon || 'fa-ticket'} text-purple-600"></i>
+                    </div>
+                    ${itemDetails}
+                `;
+                itemsContainer.appendChild(itemElement);
+            });
+
+            // 添加折扣券使用说明
+            const usageInstructions = document.createElement('div');
+            usageInstructions.className = 'mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200';
+            usageInstructions.innerHTML = `
+                <div class="flex items-start space-x-2">
+                    <i class="fa fa-info-circle text-yellow-600 mt-0.5"></i>
+                    <div>
+                        <h4 class="font-bold text-sm text-yellow-800 mb-1">折扣券使用说明</h4>
+                        <ul class="text-xs text-yellow-700 space-y-1">
+                            <li>• 不可以疊加使用</li>
+                            <li>• 不適用點數卡</li>
+                            <li>• 每筆訂單僅可使用一張折扣券</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            itemsContainer.appendChild(usageInstructions);
+
+            document.getElementById('returningCheckinModal').classList.remove('hidden');
+        }
+
+
+
+        // 更新倒計時
+        function updateCountdown() {
+            const startDate = new Date(checkinData.returningPlayer.startDate);
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 7); // 7天活動期限
+
+            const now = new Date();
+            const timeLeft = endDate - now;
+
+            if (timeLeft <= 0) {
+                document.getElementById('daysLeft').textContent = '0';
+                document.getElementById('hoursLeft').textContent = '00';
+                document.getElementById('minutesLeft').textContent = '00';
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('daysLeft').textContent = days;
+            document.getElementById('hoursLeft').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutesLeft').textContent = String(minutes).padStart(2, '0');
+        }
+
+        // 計算簽到率
+        function calculateCheckinRate() {
+            const totalPossibleDays = 50; // 假设总天数为50
+            return Math.round((checkinData.totalDays / totalPossibleDays) * 100);
+        }
+
+        // 格式化日期
+        function formatDate(date) {
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        }
+
+        // 保存簽到數據
+        function saveCheckinData() {
+            localStorage.setItem('lastCheckin', checkinData.lastCheckin);
+            localStorage.setItem('streakDays', checkinData.streakDays);
+            localStorage.setItem('totalDays', checkinData.totalDays);
+            localStorage.setItem('monthlyDays', checkinData.monthlyDays);
+            localStorage.setItem('checkinHistory', JSON.stringify(checkinData.checkinHistory));
+            localStorage.setItem('rewards', JSON.stringify(checkinData.rewards));
+            localStorage.setItem('achievements', JSON.stringify(checkinData.achievements));
+            localStorage.setItem('returningPlayer', JSON.stringify(checkinData.returningPlayer));
+            localStorage.setItem('returningStartDate', checkinData.returningPlayer.startDate);
+        }
+
+        // 檢查並更新連續簽到
+        function checkAndUpdateStreak() {
+            if (!checkinData.lastCheckin) return;
+
+            const lastCheckinDate = new Date(checkinData.lastCheckin);
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+
+            // 如果最後簽到不是昨天或今天，重置連續簽到
+            if (formatDate(lastCheckinDate) !== formatDate(yesterday) && formatDate(lastCheckinDate) !== todayString) {
+                checkinData.streakDays = 0;
+                saveCheckinData();
+                document.getElementById('streakDays').textContent = '0';
+            }
+        }
+
+        // 初始化時檢查連續簽到
+        checkAndUpdateStreak();
+    </script>
+</body>
+</html>
